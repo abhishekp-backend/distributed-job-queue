@@ -19,7 +19,6 @@ A distributed job queue built with Spring Boot and PostgreSQL that enables relia
 ---
 
 ## System Architecture
-## System Architecture
 
 <p>
   <img src="docs/architecture.png" alt="System Architecture">
