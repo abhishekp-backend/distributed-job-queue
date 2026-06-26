@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: distributed-job-queue
+  datasource:
+    url: jdbc:postgresql://localhost:5432/JobQueue
+    username: postgres
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
