@@ -2,9 +2,7 @@ package com.abhishek.distributedjobqueue.worker;
 
 import com.abhishek.distributedjobqueue.execution.JobExecutor;
 import com.abhishek.distributedjobqueue.job.entity.Job;
-import com.abhishek.distributedjobqueue.job.enums.JobStatus;
-import com.abhishek.distributedjobqueue.job.repository.JobRepository;
-import jakarta.transaction.Transactional;
+import com.abhishek.distributedjobqueue.job.service.JobService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,42 +14,41 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class WorkerService {
-    private final JobRepository jobRepository;
+
     private final JobExecutor jobExecutor;
+    private final JobService jobService;
 
     @Value("${server.port}")
     private String port;
 
-    @Transactional
     public boolean processNextJob() {
-        List<Job> jobs = jobRepository.findPendingJobsForUpdate(JobStatus.PENDING);
 
-        if (jobs == null || jobs.isEmpty()) return false;
+        List<Job> jobs = jobService.claimPendingJobs();
 
-        Job job = jobs.getFirst();
-
-        if (job == null) return false;
-
-        job.setStatus(JobStatus.RUNNING);
-        jobRepository.save(job);
-        log.info("[Worker:{}] Found job {}", port, job.getId());
-
-        try {
-            jobExecutor.execute(job);
-            job.setStatus(JobStatus.COMPLETED);
-        }
-        catch (Exception e) {
-            job.setAttemptCount(job.getAttemptCount() + 1);
-
-            if (job.getAttemptCount() >= job.getMaxAttempts()) {
-                job.setStatus(JobStatus.FAILED);
-            }
-            else {
-                job.setStatus(JobStatus.PENDING);
-            }
+        if (jobs.isEmpty()) {
+            return false;
         }
 
-        jobRepository.save(job);
+        for (Job job : jobs) {
+
+            jobService.markRunning(job.getId());
+
+            log.info("[Worker:{}] Found job {}", port, job.getId());
+
+            try {
+                jobExecutor.execute(job);
+
+                jobService.markCompleted(job.getId());
+
+                log.info("[Worker:{}] Completed job {}", port, job.getId());
+
+            } catch (Exception e) {
+
+                log.error("[Worker:{}] Job {} failed", port, job.getId(), e);
+
+                jobService.retryOrFail(job.getId());
+            }
+        }
 
         return true;
     }

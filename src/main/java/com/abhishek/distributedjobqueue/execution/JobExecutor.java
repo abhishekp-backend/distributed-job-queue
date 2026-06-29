@@ -19,7 +19,6 @@ public class JobExecutor {
             // simulate processing time
             Thread.sleep(2000);
 
-            // optional: simulate workload logic
             log.info("[Worker:{}] Processing job {} (attempt={})",
                     port,
                     job.getId(),

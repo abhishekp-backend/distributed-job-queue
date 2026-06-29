@@ -9,3 +9,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+worker:
+  batch-size: 10
+  poll-delay: 5000
+
+recovery:
+  batch-size: 50
+  timeout-minutes: 5
+  poll-delay: 60000
+
+job:
+  max-attempts: 3

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,8 +19,8 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT j FROM Job j WHERE j.status = :status ORDER BY j.createdAt ASC")
-    List<Job> findPendingJobsForUpdate(JobStatus status);
+    List<Job> findPendingJobsForUpdate(JobStatus status, Pageable pageable);
 
     @Query("SELECT j FROM Job j WHERE j.status = :status AND j.updatedAt < :time")
-    List<Job> findStuckJobs(JobStatus status, LocalDateTime time);
+    List<Job> findStuckJobs(JobStatus status, LocalDateTime time, Pageable pageable);
 }
