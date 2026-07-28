@@ -54,14 +54,26 @@ A distributed job queue built with Spring Boot and PostgreSQL that enables relia
 
 ```text
 src
-├── controller
-├── service
-├── repository
-├── worker
-├── execution
-├── entity
-├── config
-└── exception
+├── DistributedJobQueueApplication.java
+│
+├── job                 # Handles job creation, lifecycle management, and status tracking
+│   ├── controller
+│   ├── service
+│   ├── dto
+│   ├── repository
+│   ├── entity
+│   └── enums
+│
+├── worker              # Manages distributed workers and coordinates job processing
+│   ├── JobRecoveryScheduler
+│   ├── JobScheduler
+│   └── WorkerService
+│
+└── execution           # Handles job execution lifecycle and execution result management
+    ├── service
+    ├── repository
+    ├── entity
+    └── enums
 ```
 
 ---
