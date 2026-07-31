@@ -1,4 +1,4 @@
-package com.abhishek.distributedjobqueue.execution;
+package com.abhishek.distributedjobqueue.execution.service;
 
 import com.abhishek.distributedjobqueue.job.entity.Job;
 import lombok.extern.slf4j.Slf4j;

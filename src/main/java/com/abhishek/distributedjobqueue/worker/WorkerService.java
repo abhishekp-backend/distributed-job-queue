@@ -1,6 +1,6 @@
 package com.abhishek.distributedjobqueue.worker;
 
-import com.abhishek.distributedjobqueue.execution.JobExecutor;
+import com.abhishek.distributedjobqueue.execution.service.JobExecutor;
 import com.abhishek.distributedjobqueue.job.entity.Job;
 import com.abhishek.distributedjobqueue.job.service.JobService;
 import lombok.Getter;
