@@ -15,7 +15,19 @@ import java.util.UUID;
 @Entity
 @Setter
 @Getter
-@Table(name = "jobs")
+@Table(
+        name = "jobs",
+        indexes = {
+                @Index(
+                        name = "idx_jobs_ready_queue",
+                        columnList = "status, priority, createdAt"
+                ),
+                @Index(
+                        name = "idx_jobs_recovery",
+                        columnList = "status, updatedAt"
+                )
+        }
+)
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
