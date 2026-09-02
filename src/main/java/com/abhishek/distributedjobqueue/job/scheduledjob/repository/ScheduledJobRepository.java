@@ -27,7 +27,7 @@ public interface ScheduledJobRepository extends JpaRepository<ScheduledJob, UUID
         """,
             nativeQuery = true)
     List<ScheduledJob> findDueJobsForUpdate(
-            @Param("status") ScheduledJobStatus status,
+            @Param("status") String status,
             @Param("now") LocalDateTime now,
             Pageable pageable
     );

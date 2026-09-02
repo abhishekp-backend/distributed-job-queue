@@ -14,7 +14,7 @@ worker:
   batch-size: 10
   poll-delay: 5000
 
-schedulerWorker:
+scheduler-worker:
   batch-size: 50
   poll-delay: 2000
 

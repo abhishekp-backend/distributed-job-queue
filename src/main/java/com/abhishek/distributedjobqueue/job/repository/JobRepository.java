@@ -27,7 +27,7 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
         FOR UPDATE SKIP LOCKED
         """)
     List<Job> findPendingJobsForUpdate(
-            @Param("status") JobStatus status,
+            @Param("status") String status,
             Pageable pageable
     );
 

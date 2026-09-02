@@ -61,7 +61,7 @@ public class ScheduledJobService {
 
         List<ScheduledJob> jobs =
                 scheduledJobRepository.findDueJobsForUpdate(
-                        ScheduledJobStatus.PENDING,
+                        ScheduledJobStatus.PENDING.name(),
                         LocalDateTime.now(),
                         PageRequest.of(0, batchSize)
                 );

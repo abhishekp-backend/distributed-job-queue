@@ -40,16 +40,18 @@ public class JobRecoveryScheduler {
 
         for (Job job: stuckJobs) {
             log.warn("[Recovery:{}] Recovering stuck job {}", port, job.getId());
-            job.setAttemptCount(job.getAttemptCount() + 1);
+//            job.setAttemptCount(job.getAttemptCount() + 1);
+//
+//            if (job.getAttemptCount() >= job.getMaxAttempts()) {
+//                jobService.markFailed(job.getId());
+//            }
+//            else {
+//                jobService.markPending(job.getId());
+//            }
+//
+//            jobRepository.save(job);
 
-            if (job.getAttemptCount() >= job.getMaxAttempts()) {
-                jobService.markFailed(job.getId());
-            }
-            else {
-                jobService.markPending(job.getId());
-            }
-
-            jobRepository.save(job);
+            jobService.retryOrFail(job.getId());
         }
     }
 }

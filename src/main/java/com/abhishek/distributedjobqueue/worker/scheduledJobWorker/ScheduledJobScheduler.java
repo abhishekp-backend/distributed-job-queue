@@ -20,7 +20,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@ConfigurationProperties(prefix = "schedulerWorker")
+@ConfigurationProperties(prefix = "scheduler-worker")
 public class ScheduledJobScheduler {
 
     private final ScheduledJobService scheduledJobService;

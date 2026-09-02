@@ -83,7 +83,7 @@ public class JobService {
     public List<Job> claimPendingJobs() {
 
         List<Job> jobs = jobRepository.findPendingJobsForUpdate(
-                JobStatus.PENDING,
+                JobStatus.PENDING.name(),
                 PageRequest.of(0, batchSize));
 
         for (Job job : jobs) {

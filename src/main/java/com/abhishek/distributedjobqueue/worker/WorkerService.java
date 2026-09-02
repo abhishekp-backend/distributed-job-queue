@@ -37,7 +37,7 @@ public class WorkerService {
             return false;
         }
 
-        log.info("Found {} jobs.", batchSize);
+        log.info("Found {} jobs.", jobs.size());
 
         for (Job job : jobs) {
 
