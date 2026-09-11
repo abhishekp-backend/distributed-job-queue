@@ -2,7 +2,7 @@ spring:
   application:
     name: distributed-job-queue
   datasource:
-    url: jdbc:postgresql://localhost:5432/JobQueue
+    url: jdbc:postgresql://localhost:5432/distributed_job_queue
     username: postgres
     password: 1234
   jpa:
@@ -25,3 +25,6 @@ recovery:
 
 job:
   max-attempts: 3
+
+server:
+  port: 8080
