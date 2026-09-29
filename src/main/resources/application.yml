@@ -1,18 +1,31 @@
 spring:
   application:
     name: distributed-job-queue
+
+  threads:
+    virtual:
+      enabled: true
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/distributed_job_queue
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+      connection-timeout: 10000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+    url: jdbc:postgresql://localhost:5432/JobQueue
     username: postgres
     password: 1234
+
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
 
 worker:
-  batch-size: 10
-  poll-delay: 5000
+  threads: 4
+  batch-size: 4
+  poll-delay: 1000
 
 scheduler-worker:
   batch-size: 50
@@ -26,5 +39,20 @@ recovery:
 job:
   max-attempts: 3
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 server:
   port: 8080
+  tomcat:
+    threads:
+      max: 200
+    max-connections: 10000
+    accept-count: 2000
+    connection-timeout: 20000
