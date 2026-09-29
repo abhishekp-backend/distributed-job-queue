@@ -16,7 +16,7 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_DB: distributed_job_queue
+          POSTGRES_DB: JobQueue
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 1234
         ports:
