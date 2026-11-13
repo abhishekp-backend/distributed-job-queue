@@ -41,6 +41,7 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
     """, nativeQuery = true)
     List<Job> findStuckJobs(
             @Param("status") JobStatus status,
-            @Param("time") LocalDateTime time
+            @Param("time") LocalDateTime time,
+            Pageable pageable
     );
 }

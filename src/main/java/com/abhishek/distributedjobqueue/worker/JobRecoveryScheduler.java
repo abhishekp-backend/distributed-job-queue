@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import com.abhishek.distributedjobqueue.job.service.JobService;
@@ -29,11 +30,13 @@ public class JobRecoveryScheduler {
     @Value("${server.port}")
     private String port;
 
+    private int batchSize;
+
     @Scheduled(fixedDelayString = "${recovery.poll-delay}")
     public void recoverStuckJobs() {
         log.info("[Recovery:{}] Looking for stuck jobs...", port);
 
-        List<Job> stuckJobs = jobRepository.findStuckJobs(JobStatus.RUNNING, LocalDateTime.now().minusMinutes(5));
+        List<Job> stuckJobs = jobRepository.findStuckJobs(JobStatus.RUNNING, LocalDateTime.now().minusMinutes(5), PageRequest.of(0, batchSize));
 
         for (Job job: stuckJobs) {
             log.warn("[Recovery:{}] Recovering stuck job {}", port, job.getId());

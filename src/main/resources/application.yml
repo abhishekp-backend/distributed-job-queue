@@ -32,6 +32,7 @@ scheduler-worker:
   poll-delay: 2000
 
 recovery:
+  batch-size: 50
   timeout-minutes: 5
   poll-delay: 60000
 
