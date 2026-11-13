@@ -31,15 +31,16 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
             Pageable pageable
     );
 
-    @Query("""
+    @Query(value = """
         SELECT j
         FROM Job j
         WHERE j.status = :status
           AND j.updatedAt < :time
-    """)
+        ORDER BY updatedAt
+        FOR UPDATE SKIP LOCKED
+    """, nativeQuery = true)
     List<Job> findStuckJobs(
             @Param("status") JobStatus status,
-            @Param("time") LocalDateTime time,
-            Pageable pageable
+            @Param("time") LocalDateTime time
     );
 }
